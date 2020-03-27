@@ -1,0 +1,17 @@
+{% extends "library/base.html" %}
+
+{% block content%}
+
+			<article class="media content-section">
+			  <div class="media-body">
+			    <div class="article-metadata">
+			      <a class="mr-2" href="#">{{ book.author }}</a>
+			      <small class="text-muted">{{ book.isbn }}</small>
+			    </div>
+			    <h2><a class="article-title" href="/book/{{ book.title }}">{{ book.title }}</a></h2>
+			    <p class="article-content">{{ book.summary }}</p>
+			  </div>
+			</article>
+
+{% endblock content %}
+
