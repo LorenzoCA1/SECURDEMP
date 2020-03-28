@@ -46,6 +46,10 @@ class BooksInstanceInline(admin.TabularInline):
     """Defines format of inline book instance insertion (used in BookAdmin)"""
     model = BookInstance
 
+class BooksCommentInline(admin.TabularInline):
+    """Defines format of inline book instance insertion (used in BookAdmin)"""
+    model = comment
+
 
 class BookAdmin(admin.ModelAdmin):
     """Administration object for Book models.
@@ -54,7 +58,7 @@ class BookAdmin(admin.ModelAdmin):
      - adds inline addition of book instances in book view (inlines)
     """
     list_display = ('title', 'author', 'display_genre')
-    inlines = [BooksInstanceInline]
+    inlines = [BooksInstanceInline,BooksCommentInline]
 
 
 admin.site.register(Book, BookAdmin)

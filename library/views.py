@@ -35,9 +35,10 @@ def about(request):
 
 def book(request,book):
 	book = Book.objects.get(title=book)
+	comments = book
 	#book = Book.objects.filter(title=book).first()
 	#context = {
-	#	'books': Book.objects.all().get(title=book)
+	#	'comments': comment.objects.all()
 	#}
 	return render(request, 'library/book.html',{'book':book})
 	#return HttpResponse('<h1>This is the profile page! The user is {}.</h1>'.format(book))
