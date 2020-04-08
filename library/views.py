@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views.generic import ListView, DetailView, CreateView
 from django.http import HttpResponse
 #testing
 from .models import Post
@@ -30,16 +31,29 @@ def home(request):
 	}
 	return render(request, 'library/home.html',context)
 
+class BookListView(ListView):
+	model = Book
+	template_name = 'library/home.html'
+	context_object_name = 'books'
+
+class BookDetailView(DetailView):
+	model = Book
+
+class BookCreateView(CreateView):
+	model = Book
+	fields = ['title','author','summary','isbn','genre','language','call']
+
+
 def about(request):
 	return render(request, 'library/about.html',{'title':'About'})
 
-def book(request,book):
-	book = Book.objects.get(title=book)
-	comments = book
+#def book(request,book):
+#	book = Book.objects.get(title=book)
+#	comments = book
 	#book = Book.objects.filter(title=book).first()
 	#context = {
 	#	'comments': comment.objects.all()
 	#}
-	return render(request, 'library/book.html',{'book':book})
+#	return render(request, 'library/book.html',{'book':book})
 	#return HttpResponse('<h1>This is the profile page! The user is {}.</h1>'.format(book))
 	

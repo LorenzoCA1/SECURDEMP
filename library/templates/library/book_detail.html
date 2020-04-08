@@ -1,0 +1,19 @@
+{% extends "library/base.html" %}
+
+{% block content%}
+
+			<article class="media content-section">
+			  <div class="media-body">
+			    <div class="article-metadata">
+			      <a class="mr-2" href="#">{{ object.author }}</a>
+			      <small class="text-muted">{{ object.isbn }}</small>
+			    </div>
+			    <h2 class="article-title">{{ object.title }}</h2>
+			    <p class="article-content">{{ object.summary }}</p>
+			  </div>
+			</article>
+
+{% endblock content %}
+
+<!-- Write your comments here -->
+<!-- href="/book/{{ book.title }}" -->
