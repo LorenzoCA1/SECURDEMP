@@ -33,7 +33,7 @@
 			    <h4>Comments</h4>
 
 			    <div class="form-group">
-					<a class="mr-2" href="comment">comment</a>
+					<a class="mr-2" href="{% url 'comment-create' object.id %}">comment</a>
 				</div>
 
 			    {% for comment in book.comment_set.all %}
