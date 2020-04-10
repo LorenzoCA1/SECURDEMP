@@ -27,6 +27,7 @@
 			var booklist = []
 			{% for book in books %}
 				bookitem = {
+					"id" : "{{book.id}}",
 					"title" : "{{book.title}}",
 					"summary" : "{{book.summary}}",
 					"author" : "{{book.author}}",
@@ -51,7 +52,7 @@
 														  '<a class="mr-2" href="#">' + booklist[i].author + '</a>' +
 														  '<small class="text-muted">' + booklist[i].isbn + '</small>' +
 														'</div>' +
-														'<h2><a class="article-title" href="/book/' + booklist[i].title + '">' + booklist[i].title + '</a></h2>' +
+														'<h2><a class="article-title" href="/book/' + booklist[i].id + '">' + booklist[i].title + '</a></h2>' +
 														'<p class="article-content">' + booklist[i].summary + '</p>' +
 													  '</div>' +
 													'</article>' +
