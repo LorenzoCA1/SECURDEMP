@@ -7,10 +7,16 @@
 			    <div class="article-metadata">
 			      <a class="mr-2" href="#">{{ object.author }}</a>
 			      <small class="text-muted">{{ object.isbn }}</small>
+			      <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'book-edit' object.id%}">Edit</a>
+			      <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'book-delete' object.id%}">Remove</a>
 			    </div>
 			    <h2 class="article-title">{{ object.title }}</h2>
 			    <p class="article-content">{{ object.summary }}</p>
+			    <p class="article-content">Language: {{ object.language }}</p>
+			    <p class="article-content">Genre: {{ object.genre }}</p>
+			    <p class="article-content">Call: {{ object.call }}</p>
 			  </div>
+			 </article>
 
 			  <div style="margin-left:20px;margin-top:20px">
 			    <h4>Copies</h4>
@@ -27,22 +33,22 @@
 			      <p class="text-muted"><strong>Id:</strong> {{ copy.id }}</p>
 			    {% endfor %}
 			  </div>
-			</article>
+			<!--</article>-->
 
 			<div style="margin-left:20px;margin-top:20px">
-			    <h4>Comments</h4>
-
+			    <h4>Review</h4>
+			    
 			    <div class="form-group">
-					<a class="mr-2" href="{% url 'comment-create' object.id %}">comment</a>
+					<a class="mr-2" href="{% url 'comment-create' object.id %}">Review</a>
 				</div>
 
 			    {% for comment in book.comment_set.all %}
 			      <hr>
-			      <p><strong>Comment</strong> {{ comment.comment }}</p>
+			      <p><strong>Review</strong> {{ comment.comment }}</p>
 			      <p class="text-muted"><strong>User:</strong> {{ comment.author }}</p>
 			    {% endfor %}
 			  </div>
-			</article>
+			<!-- </article> -->
 
 
 

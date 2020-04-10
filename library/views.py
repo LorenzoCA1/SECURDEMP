@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.http import HttpResponse
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 #testing
 from .models import Post
 from .models import Author, Genre, Book, BookInstance, Language, comment
@@ -39,11 +40,34 @@ class BookListView(ListView):
 class BookDetailView(DetailView):
 	model = Book
 
-class BookCreateView(CreateView):
+class BookCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 	model = Book
 	fields = ['title','author','summary','isbn','genre','language','call']
 
-class CommentCreateView(CreateView):
+	def test_func(self):
+		if str(self.request.user.profile.Role) == "Book Manager":
+			return True
+		return False
+
+class BookUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+	model = Book
+	fields = ['title','author','summary','isbn','genre','language','call']
+
+	def test_func(self):
+		if str(self.request.user.profile.Role) == "Book Manager":
+			return True
+		return False
+
+class BookDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+	model = Book
+	success_url = '/'
+
+	def test_func(self):
+		if str(self.request.user.profile.Role) == "Book Manager":
+			return True
+		return False		
+
+class CommentCreateView(LoginRequiredMixin, UserPassesTestMixin ,CreateView):
 	model = comment
 	fields = ['comment']
 
@@ -52,6 +76,11 @@ class CommentCreateView(CreateView):
 		form.instance.author = self.request.user
 		form.instance.book = book
 		return super(CommentCreateView, self).form_valid(form)
+
+	def test_func(self):
+		if str(self.request.user.profile.Role) == "Student" or str(self.request.user.profile.Role) == "Teacher":
+			return True
+		return False
 
 
 def about(request):
