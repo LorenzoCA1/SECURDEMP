@@ -3,11 +3,30 @@ from django.contrib.auth.models import User
 from PIL import Image
 
 # Create your models here.
+class Role(models.Model):
+	name = models.CharField(max_length=15, blank=True)
+	browse_search = models.BooleanField()
+	borrow = models.BooleanField()
+	review = models.BooleanField()
+	add = models.BooleanField()
+	edit = models.BooleanField()
+	delete = models.BooleanField()
+	add_instance = models.BooleanField()
+	edit_instance = models.BooleanField()
+	delete_instance = models.BooleanField()
+	create_manager = models.BooleanField()
+	view_logs = models.BooleanField()
+	any_create = models.BooleanField()
+
+	def __str__(self):
+		"""String for representing the Model object."""
+		return self.name
+
 class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	image = models.ImageField(default ='default.jpg',upload_to='profile_pics')
 	IDnum = models.CharField(max_length=8, blank=True)
-	Role = models.CharField(max_length=15, blank=True)
+	Role = models.ForeignKey('Role' , on_delete=models.SET_NULL, null=True)
 	SecurityQuestion = models.CharField(max_length=50, blank=True)
 	SecurityAnswer = models.CharField(max_length=30, blank=True)
 

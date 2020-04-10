@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from .models import Role
 from .models import Profile
 
 SECURITY_QUESTION= [
@@ -16,12 +17,15 @@ ROLE_CHOICE= [
     ('teacher', 'Teacher'),
     ]
 
+class PropertyModelChoiceField(forms.ModelChoiceField):
+	def label_from_instance(self, obj):
+		return obj.name
 
 class UserRegisterForm(UserCreationForm):
 	email = forms.EmailField()
 	#IDnum = forms.CharField(label='Enter 8 Digit ID number', max_length = 8)
 	IDnum = forms.CharField(label='What is your ID number?',required=True,widget=forms.TextInput(attrs={'class':'form-control' , 'autocomplete': 'off','pattern':'[0-9]+', 'title':'Enter numbers Only '}))
-	classification= forms.CharField(label='What is your Role?', widget=forms.Select(choices=ROLE_CHOICE))
+	classification= PropertyModelChoiceField(queryset = Role.objects.filter(any_create=True))
 	SecurityQ= forms.CharField(label='Select A Security Question', widget=forms.Select(choices=SECURITY_QUESTION))
 	SecuirtyA = forms.CharField()
 
