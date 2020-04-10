@@ -34,7 +34,9 @@
 	        <div class="navbar-nav mr-auto">
 	          <a class="nav-item nav-link" href="{% url 'library-home'%}">Home</a>
 	          <a class="nav-item nav-link" href="{% url 'library-about'%}">About</a>
+	          {% if not user.is_authenticated or user.profile.Role == "student" or user.profile.Role == "teacher" %}
 	          <a class="nav-item nav-link" href="{% url 'library-search'%}">Find a Book</a>
+	          {% endif %}
 	        </div>
 	        <!-- Navbar Right Side -->
 	        <div class="navbar-nav">
