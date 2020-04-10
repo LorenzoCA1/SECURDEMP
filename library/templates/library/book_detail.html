@@ -32,6 +32,10 @@
 			<div style="margin-left:20px;margin-top:20px">
 			    <h4>Comments</h4>
 
+			    <div class="form-group">
+					<a class="mr-2" href="comment">comment</a>
+				</div>
+
 			    {% for comment in book.comment_set.all %}
 			      <hr>
 			      <p><strong>Comment</strong> {{ comment.comment }}</p>

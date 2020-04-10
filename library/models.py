@@ -39,9 +39,11 @@ class Language(models.Model):
 
 class comment(models.Model):
     book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
-    comment = models.TextField(max_length=1000, help_text="Enter a brief description of the book")
+    comment = models.TextField(max_length=1000, help_text="Enter a Comment")
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     
+    def get_absolute_url(self):
+        return reverse('book-detail', kwargs={'pk': self.book.pk})
 
     def __str__(self):
         """String for representing the Model object (in Admin site etc.)"""

@@ -43,6 +43,16 @@ class BookCreateView(CreateView):
 	model = Book
 	fields = ['title','author','summary','isbn','genre','language','call']
 
+class CommentCreateView(CreateView):
+	model = comment
+	fields = ['comment']
+
+	def form_valid(self, form):
+		book = Book.objects.get(pk=self.kwargs['pk'])
+		form.instance.author = self.request.user
+		form.instance.book = book
+		return super(CommentCreateView, self).form_valid(form)
+
 
 def about(request):
 	return render(request, 'library/about.html',{'title':'About'})
