@@ -1,0 +1,53 @@
+{% extends "library/base.html" %}
+{% block content%}
+    <script type="text/javascript">
+		$(document).ready(()=>{
+			var booklist = []
+			{% for book in books %}
+				bookitem = {
+					"id" : "{{book.id}}",
+					"title" : "{{book.title}}",
+					"summary" : "{{book.summary}}",
+					"author" : "{{book.author}}",
+					"isbn" : "{{book.isbn}}",
+				}
+				booklist.push(bookitem)
+			{% endfor %}
+			console.log(booklist)
+
+			{% if user.is_authenticated %}
+	        	console.log("{{user.profile.Role}}")
+	        {% else %}
+	          	console.log('unknown user')
+	         {% endif %}
+
+			$("#search").keydown((e)=>{
+				if(e.keyCode==13){
+					var search_text = $("#search").val()
+					$(".result_item").remove()
+
+					for(var i=0; i<booklist.length; i++){
+						console.log(booklist[i].title)
+						if(booklist[i].title.toLowerCase().includes(search_text.toLowerCase())){
+							$("#results").append('<div class="result_item">' +
+													'<article class="media content-section">' +
+													  '<div class="media-body">' +
+														'<div class="article-metadata">' +
+														  '<a class="mr-2" href="#">' + booklist[i].author + '</a><br>' +
+														  '<small class="text-muted">' + booklist[i].isbn + '</small>' +
+														'</div>' +
+														'<h2><a class="article-title" style="font-size: 20px" href="/book/' + booklist[i].id + '">' + booklist[i].title + '</a></h2>' +
+													  '</div>' +
+													'</article>' +
+												'</div>')
+						}
+					}
+
+				}
+			});
+		});
+	</script>
+	<input type="text" id="search" placeholder="Search..."/>
+    <br><br>
+    <div id="results"></div>
+{% endblock content %}

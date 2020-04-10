@@ -47,6 +47,11 @@ class BookCreateView(CreateView):
 def about(request):
 	return render(request, 'library/about.html',{'title':'About'})
 
+class BookSearchView(ListView):
+	model = Book
+	template_name = 'library/search.html'
+	context_object_name = 'books'
+
 #def book(request,book):
 #	book = Book.objects.get(title=book)
 #	comments = book
