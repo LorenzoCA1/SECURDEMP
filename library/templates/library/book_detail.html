@@ -20,9 +20,11 @@
 
 			  <div style="margin-left:20px;margin-top:20px">
 			    <h4>Copies</h4>
+			    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'bookinstance-add' object.id%}">Add Instance</a>
 
-			    {% for copy in book.bookinstance_set.all %}
+			    {% for copy in object.bookinstance_set.all %}
 			      <hr>
+			      <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'bookinstance-edit' object.id copy.pk%}">Edit</a>
 			      <p class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'm' %}text-danger{% else %}text-warning{% endif %}">
 			        {{ copy.get_status_display }}
 			      </p>

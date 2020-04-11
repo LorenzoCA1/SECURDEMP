@@ -65,7 +65,40 @@ class BookDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 	def test_func(self):
 		if str(self.request.user.profile.Role) == "Book Manager":
 			return True
-		return False		
+		return False
+
+class BookInstanceCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+	model = BookInstance
+	fields = ['imprint','status']
+	#to pass book field to bookinstance
+	def form_valid(self, form):
+		book = Book.objects.get(pk=self.kwargs['pk'])
+		form.instance.book = book
+		return super(BookInstanceCreateView, self).form_valid(form)
+
+	def test_func(self):
+		if str(self.request.user.profile.Role) == "Book Manager":
+			return True
+		return False
+
+class BookInstanceUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+	model = BookInstance
+	fields = ['imprint','status']
+
+	#def form_valid(self, form):
+		#book = Book.objects.get(pk=self.kwargs['pk'])
+		#form.instance.book = book
+		#return super(BookInstanceUpdateView, self).form_valid(form)
+
+	#def form_valid(self, form):
+		#bookInstance = BookInstance.objects.get(pk=self.kwargs['bookinstance_id'])
+		#form.instance.bookInstance = bookInstance
+		#return super(BookInstanceUpdateView, self).form_valid(form)
+
+	def test_func(self):
+		if str(self.request.user.profile.Role) == "Book Manager":
+			return True
+		return False							
 
 class CommentCreateView(LoginRequiredMixin, UserPassesTestMixin ,CreateView):
 	model = comment
