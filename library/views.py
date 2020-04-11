@@ -85,15 +85,15 @@ class BookInstanceUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView
 	model = BookInstance
 	fields = ['imprint','status']
 
-	#def form_valid(self, form):
-		#book = Book.objects.get(pk=self.kwargs['pk'])
-		#form.instance.book = book
-		#return super(BookInstanceUpdateView, self).form_valid(form)
+	def form_valid(self, form):
+		book = Book.objects.get(pk=self.kwargs['pk'])
+		form.instance.book = book
+		return super(BookInstanceUpdateView, self).form_valid(form)
 
-	#def form_valid(self, form):
-		#bookInstance = BookInstance.objects.get(pk=self.kwargs['bookinstance_id'])
-		#form.instance.bookInstance = bookInstance
-		#return super(BookInstanceUpdateView, self).form_valid(form)
+	def form_valid(self, form):
+		id = BookInstance.objects.get(pk=self.kwargs['bookinstance_id'])
+		form.instance.id = id
+		return super(BookInstanceUpdateView, self).form_valid(form)
 
 	def test_func(self):
 		if str(self.request.user.profile.Role) == "Book Manager":
