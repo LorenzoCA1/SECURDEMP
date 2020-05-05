@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, ManagerRegisterForm
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -44,3 +44,21 @@ def profile(request):
 		'p_form': p_form
 	}
 	return render(request, 'users/profile.html', context)
+
+def manager(request):
+	if request.method == 'POST':
+		form = ManagerRegisterForm(request.POST)
+		if form.is_valid():
+			user = form.save()
+			user.refresh_from_db()
+			user.profile.IDnum = form.cleaned_data.get('IDnum')
+			user.profile.Role = form.cleaned_data.get('classification')
+			user.profile.SecurityQuestion = form.cleaned_data.get('SecurityQ')
+			user.profile.SecurityAnswer = form.cleaned_data.get('SecuirtyA')
+			user.save()
+			username = form.cleaned_data.get('username')
+			messages.success(request, f'Your account has been created! You may log in')
+			return redirect('new_manager')
+	else:
+		form = ManagerRegisterForm()
+	return render(request, 'users/create_manager.html', {'form': form})
