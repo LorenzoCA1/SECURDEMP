@@ -1,1 +1,9 @@
-author.html
+{% extends "library/base.html" %}
+
+{% block content%}
+    {% for author in authors %}
+        <article class="media content-section">
+            <a class="mr-2" href="#">{{ author.last_name }}, {{ author.first_name }}</a>
+		</article>
+    {% endfor %}
+{% endblock content %}

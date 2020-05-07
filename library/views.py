@@ -133,6 +133,11 @@ class BookSearchView(ListView):
 	template_name = 'library/search.html'
 	context_object_name = 'books'
 
+class AuthorListView(ListView):
+	model = Author
+	template_name = 'library/author.html'
+	context_object_name = 'authors'
+
 #def book(request,book):
 #	book = Book.objects.get(title=book)
 #	comments = book

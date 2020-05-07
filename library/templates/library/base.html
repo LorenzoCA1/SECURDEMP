@@ -36,6 +36,7 @@
 	          <a class="nav-item nav-link" href="{% url 'library-about'%}">About</a>
 	          {% if not user.is_authenticated or user.profile.Role.browse_search %}
 	          <a class="nav-item nav-link" href="{% url 'library-search'%}">Find a Book</a>
+	          <a class="nav-item nav-link" href="{% url 'author-list'%}">List of Authors</a>
 	          {% endif %}
 	          {% if user.profile.Role.add %}
 	          <a class="nav-item nav-link" href="{% url 'book-create'%}">Add a Book</a>
