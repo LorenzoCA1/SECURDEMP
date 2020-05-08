@@ -109,6 +109,31 @@ class BookInstanceDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView
 			return True
 		return False
 
+class BookInstanceBorrowUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+	model = BookInstance
+	fields = ['imprint','status','due_back']
+
+	def form_valid(self, form):
+		form.instance.borrower = self.request.user
+		return super(BookInstanceBorrowUpdateView, self).form_valid(form)
+
+
+	def test_func(self):
+		if str(self.request.user.profile.Role) == "Student" or str(self.request.user.profile.Role) == "Teacher":
+			return True
+		return False	
+
+class BookInstanceReturnUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+	model = BookInstance
+	fields = ['status']
+
+
+	def test_func(self):
+		if str(self.request.user.profile.Role) == "Student" or str(self.request.user.profile.Role) == "Teacher":
+			return True
+		return False	
+
+
 class CommentCreateView(LoginRequiredMixin, UserPassesTestMixin ,CreateView):
 	model = comment
 	fields = ['comment']
