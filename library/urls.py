@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import BookListView, BookDetailView,BookCreateView, BookSearchView, CommentCreateView, BookUpdateView, BookDeleteView, BookInstanceCreateView, BookInstanceUpdateView, BookInstanceDeleteView, AuthorListView
+from .views import BookListView, BookDetailView,BookCreateView, BookSearchView, CommentCreateView, BookUpdateView, BookDeleteView, BookInstanceCreateView, BookInstanceUpdateView, BookInstanceDeleteView, AuthorListView, BookInstanceBorrowUpdateView
 from.import views
 
 urlpatterns = [
@@ -13,6 +13,7 @@ urlpatterns = [
     path('book/<int:pk>/addinstance/',BookInstanceCreateView.as_view(), name='bookinstance-add'),
     path('book/<int:book_id>/bookinstance/<pk>/edit/',BookInstanceUpdateView.as_view(), name='bookinstance-edit'),
     path('book/<int:book_id>/bookinstance/<pk>/delete/',BookInstanceDeleteView.as_view(), name='bookinstance-delete'),
+    path('book/<int:book_id>/bookinstance/<pk>/borrow/',BookInstanceBorrowUpdateView.as_view(), name='bookinstance-Borrow'),
     path('book/add/',BookCreateView.as_view(),name='book-create'),
     path('book/<int:pk>/comment/',CommentCreateView.as_view(),name='comment-create'),#path('book/comment/',CommentCreateView.as_view(),name='comment-create'),
 ]
