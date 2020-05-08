@@ -103,17 +103,18 @@ class BookInstance(models.Model):
         return False
 
     LOAN_STATUS = (
-        ('d', 'Maintenance'),
-        ('o', 'On loan'),
         ('a', 'Available'),
         ('r', 'Reserved'),
     )
+
+    """('d', 'Maintenance'),"""
+    """('o', 'On loan'),"""
 
     status = models.CharField(
         max_length=1,
         choices=LOAN_STATUS,
         blank=True,
-        default='d',
+        default='a',
         help_text='Book availability')
 
     class Meta:
