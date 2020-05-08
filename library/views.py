@@ -83,7 +83,7 @@ class BookInstanceCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView
 
 class BookInstanceUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 	model = BookInstance
-	fields = ['imprint','status']
+	fields = ['imprint','status','due_back']
 
 	#def form_valid(self, form):
 		#book = Book.objects.get(pk=self.kwargs['bookinstance_id'])
