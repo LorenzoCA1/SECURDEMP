@@ -83,7 +83,7 @@ class BookInstanceCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView
 
 class BookInstanceUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 	model = BookInstance
-	fields = ['imprint','status','due_back']
+	fields = ['imprint','status','due_back','borrower']
 
 	#def form_valid(self, form):
 		#book = Book.objects.get(pk=self.kwargs['bookinstance_id'])
@@ -111,21 +111,28 @@ class BookInstanceDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView
 
 class BookInstanceBorrowUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 	model = BookInstance
-	fields = ['imprint','status','due_back']
+	fields = ['due_back']
 
 	def form_valid(self, form):
+		form.instance.status = 'r'
 		form.instance.borrower = self.request.user
 		return super(BookInstanceBorrowUpdateView, self).form_valid(form)
 
 
 	def test_func(self):
 		if str(self.request.user.profile.Role) == "Student" or str(self.request.user.profile.Role) == "Teacher":
-			return True
+			return True		
 		return False	
 
 class BookInstanceReturnUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 	model = BookInstance
-	fields = ['status']
+	fields = []
+
+	def form_valid(self, form):
+		form.instance.status = 'a'
+		form.instance.borrower = None
+		form.instance.due_back = None
+		return super(BookInstanceReturnUpdateView, self).form_valid(form)
 
 
 	def test_func(self):

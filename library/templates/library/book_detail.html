@@ -34,9 +34,21 @@
 			      {% if user.profile.Role.edit_instance %}
 			      <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'bookinstance-edit' object.id copy.pk%}">Edit</a>
 			      {% endif %}
+
+			     
 			      {% if user.profile.Role.borrow %}
-			      <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'bookinstance-Borrow' object.id copy.pk%}">Borrow</a>
+			     	<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'bookinstance-Borrow' object.id copy.pk%}">Borrow</a>
 			      {% endif %}
+			      {% if user.profile.Role.borrow %}
+			     	<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'bookinstance-Return' object.id copy.pk%}">Return</a>
+			      {% endif %}
+			      
+
+			      {% if object.bookinstance.status == 'a'%}
+			      	
+			      {% endif %}
+
+			      
 			      {% if user.profile.Role.delete %}
 			      <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'bookinstance-delete' object.id copy.pk%}">Remove</a>
 			      {% endif %}
