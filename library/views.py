@@ -166,9 +166,18 @@ class BookSearchView(ListView):
 	context_object_name = 'books'
 
 class AuthorListView(ListView):
-	model = Author
 	template_name = 'library/author.html'
 	context_object_name = 'authors'
+	queryset = Author.objects.all()
+
+	def get_context_data(self, **kwargs):
+		context = super(AuthorListView, self).get_context_data(**kwargs)
+		context.update({
+			'books' : Book.objects.all,
+			'authors': self.queryset
+		})
+		return context
+
 
 #def book(request,book):
 #	book = Book.objects.get(title=book)
