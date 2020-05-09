@@ -10,16 +10,16 @@
 		    </div>
 		    <p class="article-content">{{ log.object_repr }}</p>
 
-		    {% if log.action_flag == 'ADDITION' %}
-		    	ADD
+		    {% if log.action_flag is 1 %}
+		    	User has made an ADDITION
+		    {% elif log.action_flag is 2 %}
+		    	User has made an CHANGE
+		    {% else %}
+		    	User has made an DELETION
 		    {% endif %}
 
-		    {% if log.action_flag == '1' %}
-		    	ADD
-		    {% endif %}
 
-
-		    <p class="article-content">{{ log.action_flag}}</p>
+		    <p class="article-content">{{ log.change_message}}</p>
 
 
 		    <p class="article-content">{{ log.action_time}}</p>
