@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'simple_history',
     #lockout attempts
     'axes',
 ]
@@ -61,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'simple_history.middleware.HistoryRequestMiddleware',
 
     # AxesMiddleware should be the last middleware in the MIDDLEWARE list.
     # It only formats user lockout messages and renders Axes lockout responses
@@ -156,3 +158,5 @@ SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
 AXES_FAILURE_LIMIT = 5
 
 AXES_COOLOFF_TIME = 1
+
+SIMPLE_HISTORY_REVERT_DISABLED=True
