@@ -123,6 +123,7 @@ class BookInstanceDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView
 class BookInstanceBorrowUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 	model = BookInstance
 	fields = ['due_back']
+	template_name = 'library/bookinstanceborrow_form.html'
 
 	def form_valid(self, form):
 		form.instance.status = 'r'

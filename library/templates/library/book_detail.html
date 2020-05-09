@@ -32,7 +32,7 @@
 			    {% for copy in object.bookinstance_set.all %}
 			      <hr>
 			      {% if user.profile.Role.edit_instance %}
-			      <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'bookinstance-edit' object.id copy.pk%}">Edit</a>
+			      <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'bookinstance-borrow' object.id copy.pk%}">Edit</a>
 			      {% endif %}
 
 			     
