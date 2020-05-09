@@ -23,4 +23,20 @@
 			</div>
 		</form>
 	</div>
+	<div class="content-section">
+		<h6 class="mr-2">Comments by this user:</h6>
+		{% for comment in user.comment_set.all %}
+			<hr>
+			<p>{{ comment.comment }}</p>
+			<p class="text-muted"><strong>Commented on:</strong> <a class="article-title" href="{% url 'book-detail' comment.book.id %}">{{ comment.book }}</a></p>
+		{% endfor %}
+	</div>
+	<div class="content-section">
+		<h6 class="mr-2">Currently borrowed books:</h6>
+		{% for bookinstance in user.bookinstance_set.all %}
+			<hr>
+			<a class="article-title" href="{% url 'book-detail' bookinstance.book.id %}">{{ bookinstance.book }}</a>
+			<p class="text-muted"><strong>Due back:</strong> {{bookinstance.due_back}}</p>
+		{% endfor %}
+	</div>
 {% endblock content %}
