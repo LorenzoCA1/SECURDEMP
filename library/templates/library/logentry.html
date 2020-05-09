@@ -1,0 +1,31 @@
+{% extends "library/base.html" %}
+
+{% block content%}
+	{% for log in logs %}
+		<article class="media content-section">
+		  <div class="media-body">
+		    <div class="article-metadata">
+		      <a class="mr-2" href="#">{{ log.user }}</a>
+		      <small class="text-muted">{{ log.content_type }}</small>
+		    </div>
+		    <p class="article-content">{{ log.object_repr }}</p>
+
+		    {% if log.action_flag == 'ADDITION' %}
+		    	ADD
+		    {% endif %}
+
+		    {% if log.action_flag == '1' %}
+		    	ADD
+		    {% endif %}
+
+
+		    <p class="article-content">{{ log.action_flag}}</p>
+
+
+		    <p class="article-content">{{ log.action_time}}</p>
+
+
+		  </div>
+		</article>
+	{% endfor %}
+{% endblock content %}

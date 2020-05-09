@@ -6,6 +6,9 @@ from datetime import datetime, timedelta
 #testing
 from .models import Post
 from .models import Author, Genre, Book, BookInstance, Language, comment
+#testing(1)
+from django.contrib.admin.models import LogEntry, ADDITION, CHANGE
+
 
 books = [
 	{
@@ -40,6 +43,11 @@ class BookListView(ListView):
 
 class BookDetailView(DetailView):
 	model = Book
+
+class LogEntryListView(ListView):
+	model = LogEntry
+	template_name = 'library/logentry.html'
+	context_object_name = 'logs'
 
 
 class AuthorCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
