@@ -64,6 +64,7 @@ class BookCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 	model = Book
 	fields = ['title','author','summary','isbn','genre','language','call']
 
+
 	def test_func(self):
 		if str(self.request.user.profile.Role) == "Book Manager":
 			return True
