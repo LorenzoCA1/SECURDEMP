@@ -32,15 +32,16 @@
 			    {% for copy in object.bookinstance_set.all %}
 			      <hr>
 			      {% if user.profile.Role.edit_instance %}
-			      <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'bookinstance-borrow' object.id copy.pk%}">Edit</a>
+			      <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'bookinstance-edit' object.id copy.pk%}">Edit</a>
 			      {% endif %}
 
+			      {% if copy.status == 'a' %}
+			      	{% if user.profile.Role.borrow %}
+			     		<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'bookinstance-Borrow' object.id copy.pk%}">Borrow</a>
+			      	{% endif %}
+			      {% endif %}
 			     
-			      {% if user.profile.Role.borrow %}
-			     	<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'bookinstance-Borrow' object.id copy.pk%}">Borrow</a>
-			      {% endif %}
-
-			      
+			     
 			      {% if user.profile.Role.delete %}
 			      <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'bookinstance-delete' object.id copy.pk%}">Remove</a>
 			      {% endif %}

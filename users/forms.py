@@ -24,7 +24,7 @@ class PropertyModelChoiceField(forms.ModelChoiceField):
 class UserRegisterForm(UserCreationForm):
 	email = forms.EmailField()
 	#IDnum = forms.CharField(label='Enter 8 Digit ID number', max_length = 8)
-	IDnum = forms.CharField(label='What is your ID number?',required=True,widget=forms.TextInput(attrs={'class':'form-control' , 'autocomplete': 'off','pattern':'[0-9]+', 'title':'Enter numbers Only '}))
+	IDnum = forms.CharField(label='What is your ID number?',required=True,max_length =10,widget=forms.TextInput(attrs={'class':'form-control' , 'autocomplete': 'off','pattern':'[0-9]+', 'title':'Enter numbers Only '}))
 	classification= PropertyModelChoiceField(queryset = Role.objects.filter(any_create=True))
 	SecurityQ= forms.CharField(label='Select A Security Question', widget=forms.Select(choices=SECURITY_QUESTION))
 	SecuirtyA = forms.CharField()
