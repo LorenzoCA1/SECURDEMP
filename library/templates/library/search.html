@@ -14,7 +14,6 @@
 				}
 				booklist.push(bookitem)
 			{% endfor %}
-			console.log(booklist)
 
 			{% if user.is_authenticated %}
 	        	console.log("{{user.profile.Role}}")
@@ -28,7 +27,7 @@
 					$(".result_item").remove()
 
 					for(var i=0; i<booklist.length; i++){
-						console.log(booklist[i].title)
+						if($("#searchtype").val() === 'title'){
 						if(booklist[i].title.toLowerCase().includes(search_text.toLowerCase())){
 							$("#results").append('<div class="result_item">' +
 													'<article class="media content-section">' +
@@ -42,13 +41,54 @@
 													'</article>' +
 												'</div>')
 						}
+						}
+
+						if($("#searchtype").val() === 'author'){
+						if(booklist[i].author.toLowerCase().includes(search_text.toLowerCase())){
+							$("#results").append('<div class="result_item">' +
+													'<article class="media content-section">' +
+													  '<div class="media-body">' +
+														'<div class="article-metadata">' +
+														  '<a class="mr-2" href="#">' + booklist[i].author + '</a><br>' +
+														  '<small class="text-muted">' + booklist[i].isbn + '</small>' +
+														'</div>' +
+														'<h2><a class="article-title" style="font-size: 20px" href="/book/' + booklist[i].id + '">' + booklist[i].title + '</a></h2>' +
+													  '</div>' +
+													'</article>' +
+												'</div>')
+						}
+						}
+
+						if($("#searchtype").val() === 'isbn'){
+						if(booklist[i].isbn.toLowerCase().includes(search_text.toLowerCase())){
+							$("#results").append('<div class="result_item">' +
+													'<article class="media content-section">' +
+													  '<div class="media-body">' +
+														'<div class="article-metadata">' +
+														  '<a class="mr-2" href="#">' + booklist[i].author + '</a><br>' +
+														  '<small class="text-muted">' + booklist[i].isbn + '</small>' +
+														'</div>' +
+														'<h2><a class="article-title" style="font-size: 20px" href="/book/' + booklist[i].id + '">' + booklist[i].title + '</a></h2>' +
+													  '</div>' +
+													'</article>' +
+												'</div>')
+						}
+						}
+
 					}
 
 				}
 			});
 		});
 	</script>
-	<input type="text" id="search" placeholder="Search..."/>
+    <div class="content-section">
+        <input type="text" id="search" placeholder="Search..."/>
+        <select id="searchtype">
+            <option value="title">Title</option>
+            <option value="author">Author</option>
+            <option value="isbn">ISBN</option>
+        </select>
+    </div>
     <br><br>
     <div id="results"></div>
     {% else %}
