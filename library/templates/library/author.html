@@ -4,22 +4,9 @@
     {% for author in authors %}
         <article class="media content-section" style="display: block">
             <div class="article-metadata">
-                <a href="#{{author.last_name}}{{author.first_name}}" class="mr-2" data-toggle="collapse">{{ author }}</a>
+                <a href="{% url 'author-detail' author.id %}">{{ author }}</a>
             </div>
-            <div id="{{author.last_name}}{{author.first_name}}" class="collapse"></div>
 		</article>
     {% endfor %}
 
-    <script>
-        let ref
-        {% for book in books %}
-            ref = '{{book.author}}';
-            ref = ref.replace(", ", "");
-            ref = '#' + ref
-            console.log(ref)
-            $(ref).append(
-                '<div><a class="article-title" href="{% url 'book-detail' book.id %}">{{ book.title }}</a</div>'
-            )
-        {% endfor %}
-    </script>
 {% endblock content %}

@@ -1,0 +1,23 @@
+{% extends "library/base.html" %}
+{% block content%}
+
+<article class="media content-section" style="display: block">
+    <h2 class="mr-2">{{ object.last_name }}, {{object.first_name}}</h2>
+</article>
+
+<article class="media content-section" style="display: block">
+    <h6 class="mr-2">Information:</h6>
+    <p class="article-content">First Name: {{ object.first_name }}</p>
+    <p class="article-content">Last Name: {{ object.last_name }}</p>
+    <p class="article-content">Date of Birth: {{ object.date_of_birth }}</p>
+    <p class="article-content">Date of Death: {{ object.date_of_death }}</p>
+</article>
+
+<article class="media content-section" style="display: block">
+    <h6 class="mr-2">Books by this author:</h6>
+    {% for book in author.book_set.all %}
+    <a class="article-title" href="{% url 'book-detail' book.id %}">{{ book.title }}</a><br>
+    {% endfor %}
+</article>
+
+{% endblock content %}
