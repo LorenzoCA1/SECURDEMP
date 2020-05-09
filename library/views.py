@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from datetime import datetime, timedelta
 #testing
 from .models import Post
 from .models import Author, Genre, Book, BookInstance, Language, comment
@@ -122,11 +123,13 @@ class BookInstanceDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView
 
 class BookInstanceBorrowUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 	model = BookInstance
-	fields = ['due_back']
+	fields = []
 	template_name = 'library/bookinstanceborrow_form.html'
+
 
 	def form_valid(self, form):
 		form.instance.status = 'r'
+		form.instance.due_back = datetime.now() + timedelta(days=7)
 		form.instance.borrower = self.request.user
 		return super(BookInstanceBorrowUpdateView, self).form_valid(form)
 
