@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import BookListView, BookDetailView,BookCreateView, BookSearchView, CommentCreateView, BookUpdateView, BookDeleteView, BookInstanceCreateView, BookInstanceUpdateView, BookInstanceDeleteView, AuthorListView, BookInstanceBorrowUpdateView, BookInstanceReturnUpdateView
+from .views import BookListView, BookDetailView,BookCreateView, BookSearchView, CommentCreateView, BookUpdateView, BookDeleteView, BookInstanceCreateView, BookInstanceUpdateView, BookInstanceDeleteView, AuthorListView, BookInstanceBorrowUpdateView, BookInstanceReturnUpdateView, AuthorCreateView
 from.import views
 
 urlpatterns = [
@@ -14,8 +14,9 @@ urlpatterns = [
     path('book/<int:book_id>/bookinstance/<pk>/edit/',BookInstanceUpdateView.as_view(), name='bookinstance-edit'),
     path('book/<int:book_id>/bookinstance/<pk>/delete/',BookInstanceDeleteView.as_view(), name='bookinstance-delete'),
     path('book/<int:book_id>/bookinstance/<pk>/borrow/',BookInstanceBorrowUpdateView.as_view(), name='bookinstance-Borrow'),
-    path('book/<int:book_id>/bookinstance/<pk>/return/',BookInstanceReturnUpdateView.as_view(), name='bookinstance-Return'),
+    #path('book/<int:book_id>/bookinstance/<pk>/return/',BookInstanceReturnUpdateView.as_view(), name='bookinstance-Return'),
     path('book/add/',BookCreateView.as_view(),name='book-create'),
+    path('author/add/',AuthorCreateView.as_view(),name='author-create'),
     path('book/<int:pk>/comment/',CommentCreateView.as_view(),name='comment-create'),#path('book/comment/',CommentCreateView.as_view(),name='comment-create'),
 ]
 

@@ -40,6 +40,17 @@ class BookListView(ListView):
 class BookDetailView(DetailView):
 	model = Book
 
+
+class AuthorCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+	model = Author
+	fields = ['first_name','last_name','date_of_birth','date_of_death']
+
+	def test_func(self):
+		if str(self.request.user.profile.Role) == "Book Manager":
+			return True
+		return False
+
+
 class BookCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 	model = Book
 	fields = ['title','author','summary','isbn','genre','language','call']
