@@ -30,11 +30,15 @@ def register(request):
 def change_password(request):
     if request.method == 'POST':
         form = UserPasswordChangeForm(request.user, request.POST)
+
         if form.is_valid():
-            user = form.save()
-            update_session_auth_hash(request, user)  # Important!
-            messages.success(request, 'Your password was successfully updated!')
-            return redirect('change_password')
+        	if  form.cleaned_data.get('SecuirtyA') == request.user.profile.SecurityAnswer:
+	            user = form.save()
+	            update_session_auth_hash(request, user)  # Important!
+	            messages.success(request, 'Your password was successfully updated!')
+	            return redirect('change_password')
+	        else:
+	            messages.error(request, 'Please correct answer to ' + request.user.profile.SecurityQuestion)
         else:
             messages.error(request, 'Please correct the error below.')
     else:
