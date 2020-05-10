@@ -1,8 +1,9 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from .models import Role
 from .models import Profile
+
 
 SECURITY_QUESTION= [
     ('Question1', 'In what city did you have your first ever birthday party?'),
@@ -20,6 +21,14 @@ ROLE_CHOICE= [
 class PropertyModelChoiceField(forms.ModelChoiceField):
 	def label_from_instance(self, obj):
 		return obj.name
+
+class UserPasswordChangeForm(PasswordChangeForm):
+	SecuirtyA = forms.CharField()
+
+	class Meta:
+		model = User
+		fields = ['SecuirtyA']
+
 
 class UserRegisterForm(UserCreationForm):
 	email = forms.EmailField()
