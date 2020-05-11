@@ -40,12 +40,11 @@
 	          {% endif %}
 	          {% if user.profile.Role.add %}
 	          <a class="nav-item nav-link" href="{% url 'book-create'%}">Add a Book</a>
-	          {% endif %}
-	          {% if user.profile.Role.add %}
 	          <a class="nav-item nav-link" href="{% url 'author-create'%}">Add a Author</a>
 	          {% endif %}
 	          {% if user.profile.Role.create_manager %}
 	          <a class="nav-item nav-link" href="{% url 'new_manager' %}">Create a new Manager</a>
+	          <a class="nav-item nav-link" href="{% url 'log-entry' %}">Check Activity Logs</a>
 	          {% endif %}
 	        </div>
 	        <!-- Navbar Right Side -->

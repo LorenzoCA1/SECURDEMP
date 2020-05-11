@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
+from .models import Activity
 
 # Create your views here.
 def register(request):
@@ -20,6 +21,10 @@ def register(request):
 			user.profile.SecurityAnswer = form.cleaned_data.get('SecuirtyA')
 			user.save()
 			username = form.cleaned_data.get('username')
+
+			message = 'Registered profile'
+			updateActivity(user.profile, 'Addition', message)
+
 			messages.success(request, f'Your account has been created! You may log in')
 			return redirect('login')
 	else:
@@ -56,6 +61,10 @@ def profile(request):
 		if u_form.is_valid() and p_form.is_valid():
 			u_form.save()
 			p_form.save()
+
+			message = 'Updated their profile'
+			updateActivity(request.user.profile, 'Changed', message)
+
 			messages.success(request, f'Your account has been Updated!')
 			return redirect('profile')
 	else:
@@ -81,8 +90,20 @@ def manager(request):
 			user.profile.SecurityAnswer = form.cleaned_data.get('SecuirtyA')
 			user.save()
 			username = form.cleaned_data.get('username')
+
+			message = 'created new manager "' + username + '"'
+			updateActivity(request.user.profile, 'Addition', message)
+
 			messages.success(request, f'Your account has been created! You may log in')
 			return redirect('new_manager')
 	else:
 		form = ManagerRegisterForm()
 	return render(request, 'users/create_manager.html', {'form': form})
+
+def updateActivity(user, action, content):
+	newactivity = Activity(
+		user = user,
+		action = action,
+		content = content,
+	)
+	newactivity.save()

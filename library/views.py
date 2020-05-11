@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 #testing
 from .models import Post
 from .models import Author, Genre, Book, BookInstance, Language, comment
+from users.models import Activity
 #testing(1)
 from django.contrib.admin.models import LogEntry, ADDITION, CHANGE
 
@@ -45,14 +46,19 @@ class BookDetailView(DetailView):
 	model = Book
 
 class LogEntryListView(ListView):
-	model = LogEntry
+	model = Activity
 	template_name = 'library/logentry.html'
-	context_object_name = 'logs'
+	context_object_name = 'activities'
 
 
 class AuthorCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 	model = Author
 	fields = ['first_name','last_name','date_of_birth','date_of_death']
+
+	def form_valid(self, form):
+		message = 'Created new author "' + form.instance.last_name + ', ' + form.instance.first_name + '"'
+		updateActivity(self.request.user.profile, 'Addition', message)
+		return super(AuthorCreateView, self).form_valid(form)
 
 	def test_func(self):
 		if str(self.request.user.profile.Role) == "Book Manager":
@@ -64,6 +70,11 @@ class BookCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 	model = Book
 	fields = ['title','author','summary','isbn','genre','language','call']
 
+	def form_valid(self, form):
+		message = 'Created new book "' + form.instance.title + '"'
+		updateActivity(self.request.user.profile, 'Addition', message)
+		return super(BookCreateView, self).form_valid(form)
+
 	def test_func(self):
 		if str(self.request.user.profile.Role) == "Book Manager":
 			return True
@@ -73,6 +84,11 @@ class BookUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 	model = Book
 	fields = ['title','author','summary','isbn','genre','language','call']
 
+	def form_valid(self, form):
+		message = 'Updated book "' + form.instance.title + '"'
+		updateActivity(self.request.user.profile, 'Update', message)
+		return super(BookUpdateView, self).form_valid(form)
+
 	def test_func(self):
 		if str(self.request.user.profile.Role) == "Book Manager":
 			return True
@@ -81,6 +97,11 @@ class BookUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 class BookDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 	model = Book
 	success_url = '/'
+
+	def form_valid(self, form):
+		message = 'Deleted book "' + form.instance.title + '"'
+		updateActivity(self.request.user.profile, 'Deletion', message)
+		return super(BookDeleteView, self).form_valid(form)
 
 	def test_func(self):
 		if str(self.request.user.profile.Role) == "Book Manager":
@@ -94,6 +115,8 @@ class BookInstanceCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView
 	def form_valid(self, form):
 		book = Book.objects.get(pk=self.kwargs['pk'])
 		form.instance.book = book
+		message = 'Created book instance "' + form.instance.book.title + '"'
+		updateActivity(self.request.user.profile, 'Addition', message)
 		return super(BookInstanceCreateView, self).form_valid(form)
 
 	def test_func(self):
@@ -114,6 +137,10 @@ class BookInstanceUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView
 		#id = BookInstance.objects.get(pk=self.kwargs['pk'])
 		#form.instance.id = id
 		#return super(BookInstanceUpdateView, self).form_valid(form)
+	def form_valid(self, form):
+		message = 'Updated book instance "' + form.instance.book.title + '"'
+		updateActivity(self.request.user.profile, 'Update', message)
+		return super(BookInstanceUpdateView, self).form_valid(form)
 
 	def test_func(self):
 		if str(self.request.user.profile.Role) == "Book Manager":
@@ -123,6 +150,11 @@ class BookInstanceUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView
 class BookInstanceDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 	model = BookInstance
 	success_url = '/'
+
+	def form_valid(self, form):
+		message = 'Deleted book instance "' + form.instance.book.title + '"'
+		updateActivity(self.request.user.profile, 'Deletion', message)
+		return super(BookInstanceDeleteView, self).form_valid(form)
 
 	def test_func(self):
 		if str(self.request.user.profile.Role) == "Book Manager":
@@ -139,6 +171,8 @@ class BookInstanceBorrowUpdateView(LoginRequiredMixin, UserPassesTestMixin, Upda
 		form.instance.status = 'r'
 		form.instance.due_back = datetime.now() + timedelta(days=7)
 		form.instance.borrower = self.request.user
+		message = 'Borrowed book "' + form.instance.book.title + '" due back on ' + (form.instance.due_back.strftime("%d %B, %Y"))
+		updateActivity(self.request.user.profile, 'Update', message)
 		return super(BookInstanceBorrowUpdateView, self).form_valid(form)
 
 
@@ -155,6 +189,8 @@ class BookInstanceReturnUpdateView(LoginRequiredMixin, UserPassesTestMixin, Upda
 		form.instance.status = 'a'
 		form.instance.borrower = None
 		form.instance.due_back = None
+		message = 'Returned book "' + form.instance.book.title + '"'
+		updateActivity(self.request.user.profile, 'Update', message)
 		return super(BookInstanceReturnUpdateView, self).form_valid(form)
 
 
@@ -172,6 +208,9 @@ class CommentCreateView(LoginRequiredMixin, UserPassesTestMixin ,CreateView):
 		book = Book.objects.get(pk=self.kwargs['pk'])
 		form.instance.author = self.request.user
 		form.instance.book = book
+		message = 'Commented "' + form.instance.comment + '" on book "' + form.instance.book.title + '"'
+		updateActivity(self.request.user.profile, 'Addition', message)
+
 		return super(CommentCreateView, self).form_valid(form)
 
 	def test_func(self):
@@ -195,6 +234,14 @@ class AuthorListView(ListView):
 
 class AuthorDetailView(DetailView):
 	model = Author
+
+def updateActivity(user, action, content):
+	newactivity = Activity(
+		user = user,
+		action = action,
+		content = content,
+	)
+	newactivity.save()
 
 #def book(request,book):
 #	book = Book.objects.get(title=book)

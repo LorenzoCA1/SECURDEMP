@@ -42,3 +42,9 @@ class Profile(models.Model):
 			output_size = (300,300)
 			img.thumbnail(output_size)
 			img.save(self.image.path)
+
+class Activity(models.Model):
+    action_time = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
+    action = models.CharField(max_length=256)
+    content = models.CharField(max_length=256)
