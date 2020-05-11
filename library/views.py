@@ -51,7 +51,7 @@ class LogEntryListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 	context_object_name = 'activities'
 
 	def test_func(self):
-		if str(self.request.user.profile.Role) == "admin":
+		if str(self.request.user.profile.Role) == "Administrator":
 			return True
 		return False
 
