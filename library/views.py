@@ -45,10 +45,15 @@ class BookListView(ListView):
 class BookDetailView(DetailView):
 	model = Book
 
-class LogEntryListView(ListView):
+class LogEntryListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 	model = Activity
 	template_name = 'library/logentry.html'
 	context_object_name = 'activities'
+
+	def test_func(self):
+		if str(self.request.user.profile.Role) == "admin":
+			return True
+		return False
 
 
 class AuthorCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
