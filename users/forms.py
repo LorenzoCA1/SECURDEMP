@@ -23,11 +23,11 @@ class PropertyModelChoiceField(forms.ModelChoiceField):
 		return obj.name
 
 class UserPasswordChangeForm(PasswordChangeForm):
-	SecuirtyA = forms.CharField()
+	#SecuirtyA = forms.CharField()
 
 	class Meta:
 		model = User
-		fields = ['SecuirtyA']
+		#fields = ['SecuirtyA']
 
 
 class UserRegisterForm(UserCreationForm):
