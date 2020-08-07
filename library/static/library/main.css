@@ -31,13 +31,14 @@ ul {
 .content-section {
   background: #ffffff;
   padding: 10px 20px;
-  border: 1px solid #dddddd;
+  border: 1px solid gray;
   border-radius: 3px;
   margin-bottom: 20px;
 }
 
 .article-title {
   color: #444444;
+  font-weight: bold;
 }
 
 a.article-title:hover {

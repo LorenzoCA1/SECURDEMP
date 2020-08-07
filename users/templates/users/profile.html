@@ -11,6 +11,7 @@
 	      <p class="text-secondary">{{user.profile.Role}}</p>
 	    </div>
 	  </div>
+	  <hr style="border-color: gray;">
 	  <form method="POST" enctype="multipart/form-data">
 			{% csrf_token %}
 			<fieldset class="form-group">
@@ -24,18 +25,19 @@
 			</div>
 		</form>
 	</div>
+	<h4>Comments by this user:</h4>
+	<hr>
 	<div class="content-section">
-		<h6 class="mr-2">Comments by this user:</h6>
 		{% for comment in user.comment_set.all %}
-			<hr>
 			<p>{{ comment.comment }}</p>
+			<hr style="border-color: gray;">
 			<p class="text-muted"><strong>Commented on:</strong> <a class="article-title" href="{% url 'book-detail' comment.book.id %}">{{ comment.book }}</a></p>
 		{% endfor %}
 	</div>
+	<h4 class="mr-2">Borrowed books:</h4>
+	<hr>
 	<div class="content-section">
-		<h6 class="mr-2">Borrowed books:</h6>
 		{% for bookinstance in user.bookinstance_set.all %}
-			<hr>
 			<a class="article-title" href="{% url 'book-detail' bookinstance.book.id %}">{{ bookinstance.book }}</a>
 			<p class="text-muted"><strong>Due back:</strong> {{bookinstance.due_back}}</p>
 		{% endfor %}

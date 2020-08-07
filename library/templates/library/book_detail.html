@@ -15,23 +15,24 @@
 			      {% endif %}
 			    </div>
 			    <h2 class="article-title">{{ object.title }}</h2>
-			    <p class="article-content">{{ object.summary }}</p>
-			    <p class="article-content">Language: {{ object.language }}</p>
-			    <p class="article-content">Genre: {{ object.genre }}</p>
-			    <p class="article-content">Call: {{ object.call }}</p>
-			    <p class="article-content">Year of Publication: {{ object.year }}</p>
+				<p class="article-content">{{ object.summary }}</p>
+				<hr style="border-color: gray;">
+			    <p class="article-content"><strong>Language: </strong>{{ object.language }}</p>
+			    <p class="article-content"><strong>Genre: </strong>{{ object.genre }}</p>
+			    <p class="article-content"><strong>Call: </strong>{{ object.call }}</p>
+			    <p class="article-content"><strong>Year of Publication: </strong>{{ object.year }}</p>
 			  </div>
 			 </article>
 
 			  <div style="margin-left:20px;margin-top:20px">
-			    <h4>Copies</h4>
+				<h4>Copies</h4>
+				<hr>
 			    {% if user.profile.Role.add_instance %}
 			    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'bookinstance-add' object.id%}">Add Instance</a>
 			    {% endif %}
 			    
 
 			    {% for copy in object.bookinstance_set.all %}
-			      <hr>
 			      {% if user.profile.Role.edit_instance %}
 			      <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'bookinstance-edit' object.id copy.pk%}">Edit</a>
 			      {% endif %}
@@ -45,37 +46,44 @@
 			     
 			      {% if user.profile.Role.delete %}
 			      <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'bookinstance-delete' object.id copy.pk%}">Remove</a>
-			      {% endif %}
+				  {% endif %}
+				  <article class="media content-section" style="display: block;">
 			      <p class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'm' %}text-danger{% else %}text-warning{% endif %}">
 			        {{ copy.get_status_display }}
-			      </p>
+				  </p>
+				 <hr style="border-color: gray;">
 			      {% if copy.status != 'a' %}
 			        <p><strong>Due to be returned:</strong> {{ copy.due_back }}</p>
 			      {% endif %}
 			      <p><strong>Imprint:</strong> {{ copy.imprint }}</p>
-			      <p class="text-muted"><strong>Id:</strong> {{ copy.id }}</p>
-			    {% endfor %}
+				  <p class="text-muted"><strong>Id:</strong> {{ copy.id }}</p>
+				</article>
+				  <hr>
+				{% endfor %}
 			  </div>
 			<!--</article>-->
 
 			<div style="margin-left:20px;margin-top:20px">
+				<div style="display: flex;">
 			    <h4>Review</h4>
-			    
+				<hr>
 			    <div class="form-group">
 					{% if user.profile.Role.review %}
-					<a class="mr-2" href="{% url 'comment-create' object.id %}">Review</a>
+					<a class="mr-2" href="{% url 'comment-create' object.id %}">Review This Book</a>
 					{% endif %}
 				</div>
-
-			    {% for comment in book.comment_set.all %}
-			      <hr>
-			      <p><strong>Review</strong> {{ comment.comment }}</p>
-			      <p class="text-muted"><strong>User:</strong> {{ comment.author }}</p>
-			    {% endfor %}
+				</div>
+				<hr>
+				{% for comment in book.comment_set.all %}
+				<article class="media content-section" style="display: block;">
+				  <p><strong>{{ comment.comment }}</strong></p>
+				  <hr style="border-color: gray;">
+				  <p class="text-muted"><strong>User:</strong> {{ comment.author }}</p>
+				</article>
+				{% endfor %}
+				<hr>
 			  </div>
 			<!-- </article> -->
-
-
 
 {% endblock content %}
 

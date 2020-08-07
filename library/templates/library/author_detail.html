@@ -4,20 +4,23 @@
 <article class="media content-section" style="display: block">
     <h2 class="mr-2">{{ object.last_name }}, {{object.first_name}}</h2>
 </article>
-
+<div style="margin-left:20px;margin-top:20px">
+<h4>Information:</h4>
+<hr>
 <article class="media content-section" style="display: block">
-    <h6 class="mr-2">Information:</h6>
-    <p class="article-content">First Name: {{ object.first_name }}</p>
-    <p class="article-content">Last Name: {{ object.last_name }}</p>
-    <p class="article-content">Date of Birth: {{ object.date_of_birth }}</p>
-    <p class="article-content">Date of Death: {{ object.date_of_death }}</p>
+    <p class="article-content"><strong>First Name: </strong>{{ object.first_name }}</p>
+    <p class="article-content"><strong>Last Name: </strong>{{ object.last_name }}</p>
+    <p class="article-content"><strong>Date of Birth: </strong>{{ object.date_of_birth }}</p>
+    <p class="article-content"><strong>Date of Death: </strong>{{ object.date_of_death }}</p>
 </article>
 
+<h4>Books by this author:</h4>
+<hr>
 <article class="media content-section" style="display: block">
-    <h6 class="mr-2">Books by this author:</h6>
     {% for book in author.book_set.all %}
     <a class="article-title" href="{% url 'book-detail' book.id %}">{{ book.title }}</a><br>
     {% endfor %}
 </article>
+</div>
 
 {% endblock content %}
