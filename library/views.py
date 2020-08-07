@@ -73,7 +73,7 @@ class AuthorCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
 class BookCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 	model = Book
-	fields = ['title','author','summary','isbn','genre','language','call']
+	fields = ['title','author','summary','isbn','genre','language','call','year']
 
 	def form_valid(self, form):
 		message = 'Created new book "' + form.instance.title + '"'

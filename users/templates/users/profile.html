@@ -33,7 +33,7 @@
 		{% endfor %}
 	</div>
 	<div class="content-section">
-		<h6 class="mr-2">Currently borrowed books:</h6>
+		<h6 class="mr-2">Borrowed books:</h6>
 		{% for bookinstance in user.bookinstance_set.all %}
 			<hr>
 			<a class="article-title" href="{% url 'book-detail' bookinstance.book.id %}">{{ bookinstance.book }}</a>

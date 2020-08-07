@@ -65,6 +65,7 @@ class Book(models.Model):
     # Genre class has already been defined so we can specify the object above.
     language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
     call = models.CharField('Call Number', max_length=3, help_text="Enter a 3 digit call number", null=True)
+    year = models.CharField('Year of Publication', max_length=4, help_text="Enter the year of publication", null=False)
 
     def display_genre(self):
         """Creates a string for the Genre. This is required to display genre in Admin."""
